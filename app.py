@@ -1,9 +1,41 @@
+<<<<<<< HEAD
+=======
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+>>>>>>> master
 import psutil
 import time
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
+<<<<<<< HEAD
+=======
+EMAIL_ADDRESS = "tanishthakur131@gmail.com"
+EMAIL_PASSWORD = "zqbj dhcb gehl imzy"
+RECEIVER_EMAIL = "tanishthakur131@gmail.com"
+
+def send_alert(subject, body):
+    msg = MIMEMultipart()
+    msg["From"] = EMAIL_ADDRESS
+    msg["To"] = RECEIVER_EMAIL
+    msg["Subject"] = subject
+
+    msg.attach(MIMEText(body, "plain"))
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        server.send_message(msg)
+        server.quit()
+        print("Email alert sent successfully!")
+    except Exception as e:
+        print("Failed to send email:", e)
+
+>>>>>>> master
 boot_time = time.time() - psutil.boot_time()
 
 @app.route("/")
@@ -31,9 +63,32 @@ def index():
 
     Message = None
 
+<<<<<<< HEAD
     if cpu_percent > 80 or mem_percent > 80:
         Message = "High resource utilization detected. Scale UP"
 
+=======
+    print("Reached alert check")
+
+    if cpu_percent > 1 or mem_percent > 1:
+        print("Calling send_alert()")
+
+        Message = "High resource utilization detected. Scale UP"
+
+        send_alert(
+        "⚠ Azure VM Alert",
+        f"""
+CPU Usage: {cpu_percent}%
+
+Memory Usage: {mem_percent}%
+
+Disk Usage: {disk_percent}%
+
+The VM has crossed the configured threshold.
+"""
+    )
+
+>>>>>>> master
     return render_template(
         "index.html",
         cpu_metric=cpu_percent,
